@@ -48,7 +48,6 @@ import SignPage from '@container/NewReceiptForSellerPage/SignPage';
 import MedicinePage from '@container/NewReceiptForSellerPage/MedicinePage';
 import { getCookie } from '@hooks/useCookie';
 import axios from 'axios';
-import '@service/firebase';
 
 const App = () => {
   const location = useLocation();
