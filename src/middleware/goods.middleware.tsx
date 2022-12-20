@@ -21,7 +21,7 @@ export default class GoodsMiddleware {
             const imgRes = await this.s3Middleware.createGoodsImage(body.imageUrls[0].file)
 
             if (isSuccess(imgRes)) {
-                const res = await axios.post('http://54.180.10.194:4097/goods',
+                const res = await axios.post('https://api.gyopoom.kr:4097/goods',
                     {
                         ...body,
                         imageUrls: [{
@@ -40,7 +40,7 @@ export default class GoodsMiddleware {
 
     async getThumbnailList(limit: number, cursor: number): Promise<Option<GoodsTHumbnailListRES>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4097/goods/pagination?limit=${limit}&cursor=${cursor}`)
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/pagination?limit=${limit}&cursor=${cursor}`)
             return successRes(res);
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -53,7 +53,7 @@ export default class GoodsMiddleware {
                 if (typeof body.imageUrls[0].file != "string") {
                     const imgRes = await this.s3Middleware.createGoodsImage(body.imageUrls[0].file);
                     if (isSuccess(imgRes)) {
-                        const res = await axios.patch(`http://54.180.10.194:4097/goods/${id}`,
+                        const res = await axios.patch(`https://api.gyopoom.kr:4097/goods/${id}`,
                             {
                                 ...body,
                                 imageUrls: [{
@@ -66,7 +66,7 @@ export default class GoodsMiddleware {
                         return errorRes(useGetErrorMessage("이미지 업로드에 실패하였습니다"));
                     }
                 } else {
-                    const res = await axios.patch(`http://54.180.10.194:4097/goods/${id}`,
+                    const res = await axios.patch(`https://api.gyopoom.kr:4097/goods/${id}`,
                         {
                             ...body
                         })
@@ -75,7 +75,7 @@ export default class GoodsMiddleware {
 
             }
 
-            const res = await axios.patch(`http://54.180.10.194:4097/goods/${id}`, body)
+            const res = await axios.patch(`https://api.gyopoom.kr:4097/goods/${id}`, body)
             return successRes(res)
 
 
@@ -86,7 +86,7 @@ export default class GoodsMiddleware {
 
     async deleteGoods(id: string): Promise<Option<{ id: string }>> {
         try {
-            const res = await axios.delete(`http://54.180.10.194:4097/goods/${id}`)
+            const res = await axios.delete(`https://api.gyopoom.kr:4097/goods/${id}`)
             if (res.status == 204) {
                 return successRes(res);
             }
@@ -100,7 +100,7 @@ export default class GoodsMiddleware {
 
     async getGoodsById(id: string): Promise<Option<GoodsEntity>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4097/goods/${id}`);
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/${id}`);
             if (res.status == 404) {
                 return errorRes("삭제된 게시물입니다.");
             }
@@ -112,7 +112,7 @@ export default class GoodsMiddleware {
 
     async getChatGoodsById(id: string): Promise<Option<ChatGoodsResDTO>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4097/goods/part/${id}`);
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/part/${id}`);
             if (res.status == 404) {
                 return errorRes("삭제된 게시물입니다.");
             }
@@ -126,7 +126,7 @@ export default class GoodsMiddleware {
     async getMyGoodsOnReservationAndSale(): Promise<Option<GoodsAndPurchasingStateDTO[]>> {
         try {
 
-            const res = await axios.get(`http://54.180.10.194:4097/goods/current?goods-state-code=${GoodsSateCode.RESERVATION}&goods-state-code=${GoodsSateCode.SALE}`)
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/current?goods-state-code=${GoodsSateCode.RESERVATION}&goods-state-code=${GoodsSateCode.SALE}`)
             return successRes(res)
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -135,7 +135,7 @@ export default class GoodsMiddleware {
 
     async getMyGoodsOnHidden(): Promise<Option<GoodsAndPurchasingStateDTO[]>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4097/goods/current?goods-state-code=${GoodsSateCode.SUSPEND}`)
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/current?goods-state-code=${GoodsSateCode.SUSPEND}`)
             return successRes(res)
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -144,7 +144,7 @@ export default class GoodsMiddleware {
 
     async getMyGoodsOnSoldOut(): Promise<Option<GoodsAndPurchasingStateDTO[]>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4097/goods/current?goods-state-code=${GoodsSateCode.SOLDOUT}`)
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/current?goods-state-code=${GoodsSateCode.SOLDOUT}`)
             return successRes(res)
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -152,20 +152,20 @@ export default class GoodsMiddleware {
     }
 
     async changeGoodsState(id: string, state: string): Promise<Option<{ id: string }>> {
-        const res = await axios.patch(`http://54.180.10.194:4097/goods/${id}`, {
+        const res = await axios.patch(`https://api.gyopoom.kr:4097/goods/${id}`, {
             goodsStateCode: state
         })
         return successRes(res)
     }
 
     async getSearchGoods(keyword: string): Promise<Option<GoodsThumbnailDTO[]>> {
-        const res = await axios.get(`http://54.180.10.194:4097/goods/search?query=${keyword}`)
+        const res = await axios.get(`https://api.gyopoom.kr:4097/goods/search?query=${keyword}`)
         return successRes(res)
     }
 
     async getGoodsMedicine(goodsId: string): Promise<Option<GoodsMedicationResDTO>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4097/goods/medicine/${goodsId}`);
+            const res = await axios.get(`https://api.gyopoom.kr:4097/goods/medicine/${goodsId}`);
             console.log(res)
             return successRes(res);
 
@@ -175,6 +175,6 @@ export default class GoodsMiddleware {
     }
 
     async deleteBuyGoods(id: string): Promise<Option<GoodsEntity>> {
-        return await axios.delete(`http://54.180.10.194:4094/goods-purchase-details/${id}`)
+        return await axios.delete(`https://api.gyopoom.kr:4094/goods-purchase-details/${id}`)
     }
 }

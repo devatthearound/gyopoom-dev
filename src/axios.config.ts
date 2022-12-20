@@ -11,7 +11,7 @@ axios.interceptors.response.use(
     async function (error) {
         if (error.response && error.response.status === 401) {
             if (error.response.data.message == "Auth token has expired") {
-                const data = await axios.patch('http://54.180.10.194:4099/auth/token');
+                const data = await axios.patch('https://api.gyopoom.kr:4099/auth/token');
                 if (data.data) {
                     const { accessToken } = data.data;
                     const day = new Date;

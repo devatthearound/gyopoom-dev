@@ -12,7 +12,7 @@ export default class ChatMiddleware {
 
     async createRooms(body: CreateRoomDTO): Promise<Option<RoomDTO>> {
         try {
-            const res = await axios.post("http://54.180.10.194:38120/chat/rooms", {
+            const res = await axios.post("https://api.gyopoom.kr:38120/chat/rooms", {
                 secondUser: body.secondUser,
                 goodsId: body.goodsId
             })
@@ -26,7 +26,7 @@ export default class ChatMiddleware {
 
     async getRooms(): Promise<Option<RoomDTO[]>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/current`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/current`)
             return successRes(res);
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -35,7 +35,7 @@ export default class ChatMiddleware {
 
     async getMessage(roomId: string, limit: number, cursor: number): Promise<Option<MessageResDTO>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/${roomId}/messages/pagination?limit=${limit}&cursor=${cursor}`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/${roomId}/messages/pagination?limit=${limit}&cursor=${cursor}`)
             return successRes(res);
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -44,7 +44,7 @@ export default class ChatMiddleware {
 
     async delete(id: string): Promise<Option<RoomDTO[]>> {
         try {
-            const res = await axios.delete(`http://54.180.10.194:38120/chat/rooms/${id}`)
+            const res = await axios.delete(`https://api.gyopoom.kr:38120/chat/rooms/${id}`)
             return successRes(res);
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -53,7 +53,7 @@ export default class ChatMiddleware {
 
     async getCurrentRoom(limit: number): Promise<Option<ChatUserDTO[]>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/pagination?limit=5`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/pagination?limit=5`)
             return successRes(res);
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));

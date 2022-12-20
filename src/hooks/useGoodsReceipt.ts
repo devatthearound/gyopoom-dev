@@ -8,7 +8,7 @@ const useGoodsReceipt = () => {
     const { isConfirmModalOpen, setIsConfirmModalOpen } = useModalStore();
 
     const getPreviewReceiptPDF = async (goodsId: string, buyerId: string, sellerSign?: string) => {
-        const res = await axios.post(`http://54.180.10.194:5056/pdf/goods/preview`, {
+        const res = await axios.post(`https://api.gyopoom.kr:5056/pdf/goods/preview`, {
             goodsId: goodsId,
             buyerId: buyerId,
             sellerSign: sellerSign ? sellerSign : null
@@ -23,7 +23,7 @@ const useGoodsReceipt = () => {
     }
 
     const getPreviewReceiptPDFFormGoodsPurchaseDetails = async (goodsPurchaseDetailsId: string, buyerSign?: string) => {
-        const res = await axios.post(`http://54.180.10.194:5056/pdf/goodspurchaseDetails/preview`, {
+        const res = await axios.post(`https://api.gyopoom.kr:5056/pdf/goodspurchaseDetails/preview`, {
             goodsPurchaseDetailsId: goodsPurchaseDetailsId,
             buyerSign: buyerSign
         }, {

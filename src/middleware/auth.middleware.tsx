@@ -7,7 +7,7 @@ import { setCookie } from "@hooks/useCookie";
 export default class AuthMiddleware {
     async sendCode(phoneNumber: string): Promise<Option<boolean>> {
         try {
-            const res = await axios.get(`http://54.180.10.194:4099/auth/code/${phoneNumber}`);
+            const res = await axios.get(`https://api.gyopoom.kr:4099/auth/code/${phoneNumber}`);
             if (res.status === 200) return successRes(res)
 
             return errorRes("새로고침을 해주세요");
@@ -21,7 +21,7 @@ export default class AuthMiddleware {
     async signIn(verificode: string, phoneNumber: string) {
         const day = new Date();
         try {
-            const res = await axios.post("http://54.180.10.194:4099/auth/token", {
+            const res = await axios.post("https://api.gyopoom.kr:4099/auth/token", {
                 phoneNumber: phoneNumber,
                 code: verificode
             });
@@ -73,7 +73,7 @@ export default class AuthMiddleware {
         const { name, profileUrl, phoneNumber, agreements } = body;
 
         try {
-            const res = await axios.post("http://54.180.10.194:4098/users", {
+            const res = await axios.post("https://api.gyopoom.kr:4098/users", {
                 phoneNumber: phoneNumber,
                 name: name,
                 userStateCode: "",

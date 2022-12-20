@@ -73,7 +73,7 @@ const NewReceiptForBuyerPage = () => {
                         }, goodsPurchaseDetailsId)
 
                         if (isSuccess(receiptRes)) {
-                            const res = await axios.post("http://54.180.10.194:38120/chat/rooms", {
+                            const res = await axios.post("https://api.gyopoom.kr:38120/chat/rooms", {
                                 secondUser: receiptRes.data.otherUserId,
                                 goodsId: receiptRes.data.goodsId
                             })

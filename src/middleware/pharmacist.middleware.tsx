@@ -6,7 +6,7 @@ export default class PharmacistMiddleware {
 
     async getPharmacistNumber(): Promise<Option<UsersPharmacistLicenseResDTO>> {
         try {
-            const res = await axios.get("http://54.180.10.194:4096/users-pharmacist-license");
+            const res = await axios.get("https://api.gyopoom.kr:4096/users-pharmacist-license");
             if (res.data) {
                 return successRes(res)
             } else {

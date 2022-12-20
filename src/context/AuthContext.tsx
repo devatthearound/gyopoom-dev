@@ -20,7 +20,7 @@ const AuthProvider = (props: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserDTO>();
     const location = useLocation();
     const setUserValue = async () => {
-        const res = await axios.get(`http://54.180.10.194:4098/users`)
+        const res = await axios.get(`https://api.gyopoom.kr:4098/users`)
         if (res.status == 200) {
             setUser(res.data)
         }

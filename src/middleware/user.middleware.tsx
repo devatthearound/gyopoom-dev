@@ -9,7 +9,7 @@ import { setCookie } from "@hooks/useCookie";
 export default class UserMiddleware {
     async getUser(): Promise<Option<UserDTO>> {
         try {
-            const res = await axios.get("http://54.180.10.194:4098/users");
+            const res = await axios.get("https://api.gyopoom.kr:4098/users");
 
             return successRes(res);
         } catch (err: unknown) {
@@ -21,7 +21,7 @@ export default class UserMiddleware {
 
     async updateUser(body: UpdateUserDto): Promise<Option<UserDTO>> {
         try {
-            const res = await axios.patch(`http://54.180.10.194:4098/users`, body)
+            const res = await axios.patch(`https://api.gyopoom.kr:4098/users`, body)
             return successRes(res)
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -53,7 +53,7 @@ export default class UserMiddleware {
 
     async deleteUser(): Promise<Option<boolean>> {
         try {
-            const res = await axios.delete("http://54.180.10.194:4098/users");
+            const res = await axios.delete("https://api.gyopoom.kr:4098/users");
 
             if (res.status == 204) {
                 return successRes(res);

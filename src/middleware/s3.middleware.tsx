@@ -8,7 +8,7 @@ export default class S3Middleware {
         const formData = new FormData();
         formData.append('file', file);
         try {
-            const res = await axios.post('http://54.180.10.194:5057/s3/goods', formData);
+            const res = await axios.post('https://api.gyopoom.kr:5057/s3/goods', formData);
             return successRes(res);
         } catch (err: unknown) {
             const message = useGetErrorMessage(err);
@@ -21,7 +21,7 @@ export default class S3Middleware {
         const formData = new FormData();
         formData.append('file', file);
         try {
-            const res = await axios.post('http://54.180.10.194:5057/s3/profile', formData);
+            const res = await axios.post('https://api.gyopoom.kr:5057/s3/profile', formData);
             return successRes(res)
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));
@@ -34,7 +34,7 @@ export default class S3Middleware {
         formData.append('file', file, "signature.png");
 
         try {
-            const res = await axios.post('http://54.180.10.194:5057/s3/signature', formData);
+            const res = await axios.post('https://api.gyopoom.kr:5057/s3/signature', formData);
             return successRes(res)
         } catch (err: unknown) {
             return errorRes(useGetErrorMessage(err));

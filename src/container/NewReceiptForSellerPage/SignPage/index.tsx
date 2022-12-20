@@ -97,7 +97,7 @@ const SignPage = () => {
                         sellerSignature: s3Res.data.imageUrl
                     })
                     if (isSuccess(updateRes)) {
-                        const res = await axios.post("http://54.180.10.194:38120/chat/rooms", {
+                        const res = await axios.post("https://api.gyopoom.kr:38120/chat/rooms", {
                             secondUser: updateRes.data.otherUserId,
                             goodsId: updateRes.data.goodsId
                         })

@@ -181,7 +181,7 @@ const ChatRoomPage = () => {
         messageSocket.emit('joinChatRoom', roomId, user?.id);
 
         const getChatRoom = async () => {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/${roomId}`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/${roomId}`)
             setChatRoom(res.data)
         }
 

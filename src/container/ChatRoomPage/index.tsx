@@ -71,7 +71,7 @@ const ChatRoomPage = () => {
 
     const getFirstData = async () => {
         if (roomId && chatRoom) {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/${roomId}/messages/pagination?limit=30&cursor=${chatRoom.lastMessageId}`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/${roomId}/messages/pagination?limit=30&cursor=${chatRoom.lastMessageId}`)
             try {
                 setLoading(true);
                 messagesAddedByPagenation(res.data.items);
@@ -90,7 +90,7 @@ const ChatRoomPage = () => {
     const loadMore = useCallback(async (loadCount: number) => {
         setLoading(true)
         if (roomId && key && key > 0) {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/${roomId}/messages/pagination?limit=${loadCount}&cursor=${key}`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/${roomId}/messages/pagination?limit=${loadCount}&cursor=${key}`)
             try {
                 if (res.data.items.length < 0) {
                     setNoMore(true)
@@ -217,7 +217,7 @@ const ChatRoomPage = () => {
         messageSocket.emit('joinChatRoom', roomId, user?.id);
 
         const getChatRoom = async () => {
-            const res = await axios.get(`http://54.180.10.194:38120/chat/rooms/${roomId}`)
+            const res = await axios.get(`https://api.gyopoom.kr:38120/chat/rooms/${roomId}`)
             setChatRoom(res.data)
         }
 

@@ -15,7 +15,7 @@ const usePagination = (collectionName: string, limitCount: number, target: React
   const [loadingMore, setLoadingMore] = useState(false);
 
   const getFirstData = useCallback(async () => {
-    const res = await axios.get(`http://54.180.10.194:4097/goods/pagination?limit=100&cursor=`)
+    const res = await axios.get(`https://api.gyopoom.kr:4097/goods/pagination?limit=100&cursor=`)
 
     try {
       setLoading(true);
@@ -31,7 +31,7 @@ const usePagination = (collectionName: string, limitCount: number, target: React
 
   const loadMore = useCallback(async (loadCount: number) => {
     if(key && !noMore){
-      const res = await axios.get(`http://54.180.10.194:4097/goods/pagination?limit=${loadCount}&cursor=${key}`)
+      const res = await axios.get(`https://api.gyopoom.kr:4097/goods/pagination?limit=${loadCount}&cursor=${key}`)
       try {
         if (res.data.items.length <= 0) {
           setNoMore(true)
