@@ -3,7 +3,7 @@ type CreateUserDTO = {
     phoneNumber: string
     profileUrl: string
     agreements: {
-        code: string
+        id: string
         isAgreement: boolean
     }[]
 

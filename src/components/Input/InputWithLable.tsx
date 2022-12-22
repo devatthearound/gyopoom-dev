@@ -7,7 +7,7 @@ import ErrorIcon from "@images/icons/input-error.svg"
 type Props = {
     style?: React.CSSProperties
     elements: InputElements
-    onChange: React.Dispatch<React.SetStateAction<InputElements>>
+    onChange: (value: InputElements) => void
 }
 
 const InputWithLableOutSide: React.FC<Props> = ({ style, elements, onChange }) => {

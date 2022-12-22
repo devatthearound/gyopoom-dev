@@ -27,8 +27,8 @@ const NewPharmacyPage = () => {
     const [pharmacyName, setPharmacyName] = useState<InputElements>(defaultPharmacyName)
     const [pharmacyAddress, setPharmacyAddress] = useState<InputElements>(defaultPharmacyAddress)
     const pharmacyMiddleware = new PharmacyMiddleware()
-    const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const { storeBusnessNumber, storePharmacyName, storePharmacyAddress, setStoreBusnessNumber, setStorePharmacyName, setStorePharmacyAddress } = usePharmacyStore();
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(()=>{
         if(storeBusnessNumber){
@@ -48,7 +48,7 @@ const NewPharmacyPage = () => {
                 value: storePharmacyAddress
             })
 
-            setIsSubmit(!(busnessNumber.invalid == false && pharmacyName.invalid == false && pharmacyAddress.invalid == false))
+            setIsOpen(!(busnessNumber.invalid == false && pharmacyName.invalid == false && pharmacyAddress.invalid == false))
         }
     },[])
 
@@ -107,8 +107,6 @@ const NewPharmacyPage = () => {
         setStorePharmacyAddress(pharmacyAddress.value)
         setIsOpen(true)
     }
-
-    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <WithNoGuttersTopAndBottomLayout>

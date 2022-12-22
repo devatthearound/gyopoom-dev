@@ -23,16 +23,14 @@ import { style4 } from "../../utils/theme/button/style4";
 import HeaderNavigation from "./HeaderNavigation";
 import useModalStore from "@components/BasicConfirmModal/modal.store";
 import ErrorIcon from "@images/icons/blue_error.svg"
+import useRegisterStore from "@store/terms";
 
-type Props = {
-    item: any
-}
 
-const AuthNumberVerifyForm: React.FC<Props> = ({ item }) => {
+const AuthNumberVerifyForm: React.FC = () => {
     const { minutes, seconds, resetButton } = useGetCountDown(3, 0)
     const authMiddleware = new AuthMiddleware();
     const [code, setCode] = useState<InputElements>(defaultCode)
-    const { phoneNumber } = item;
+    const { phoneNumber } = useRegisterStore();
     const { setUserValue } = useGetUser();
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();

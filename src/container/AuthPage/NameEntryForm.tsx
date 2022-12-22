@@ -9,13 +9,11 @@ import FillButton from "@components/FillButton";
 import useStep from "@container/AuthPage/step.store";
 import { style1 } from "@utils/theme/button/style1";
 import HeaderNavigation from "./HeaderNavigation";
+import useRegisterStore from "@store/terms";
 
-type Props = {
-    item: any
-}
 
-const NameEntryForm: React.FC<Props> = ({ item }) => {
-    const { name, setName } = item;
+const NameEntryForm: React.FC = () => {
+    const { name, setName } = useRegisterStore();
     const { nextStep } = useStep();
 
     return (

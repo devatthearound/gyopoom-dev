@@ -15,14 +15,10 @@ import WithGuttersLeftAndRightLayoutForNotScroll from "@components/Layout/WithGu
 import { style1 } from "@utils/theme/button/style1";
 import useModalStore from "@components/BasicConfirmModal/modal.store";
 import ErrorIcon from "@images/icons/blue_error.svg"
+import useRegisterStore from "@store/terms";
 
-type Props = {
-    style?: React.CSSProperties
-    item: any
-}
-
-const SendAuthNumberForm: React.FC<Props> = ({ item }) => {
-    const { phoneNumber, setPhoneNumber } = item;
+const SendAuthNumberForm: React.FC = () => {
+    const { phoneNumber, setPhoneNumber } = useRegisterStore();
     const { nextStep } = useStep();
     const authMiddleware = new AuthMiddleware();
     const { isConfirmModalOpen, setIsConfirmModalOpen } = useModalStore();

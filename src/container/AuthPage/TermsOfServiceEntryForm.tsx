@@ -13,13 +13,7 @@ import { style1 } from "@utils/theme/button/style1";
 import HeaderNavigation from "./HeaderNavigation";
 import RadioH50BButton from "@components/RadioButton/H50B";
 import { Link } from "react-router-dom";
-
-type Props = {
-    item: {
-        checkList: TremsDTO[];
-        setCheckList: React.Dispatch<React.SetStateAction<TremsDTO[]>>;
-    }
-}
+import useRegisterStore from "@store/terms";
 
 type TremsDTO = {
     id: string
@@ -30,32 +24,34 @@ type TremsDTO = {
     registrationItem: boolean
 }
 
-const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
-    const [loading, setLoading] = useState<boolean>(false);
+const TermsOfServiceEntryForm: React.FC = () => {
+    const [loading] = useState<boolean>(false);
     const { nextStep } = useStep();
-    const { checkList, setCheckList } = item;
+    const { checkList, setCheckList } = useRegisterStore();
     const [checkAllButtonClickState, setCheckAllButtonClickState] = useState<boolean>(false);
     const [requiredAgreementClickStatus, setRequiredAgreementClickStatus] = useState<boolean>(false);
 
     useEffect(() => {
-        contentfulClient.getEntries({
-            content_type: "termsAndConditions"
-        }).then((response) => {
-            setCheckList(response.items.filter((val) => { if ((val.fields as TremsDTO).registrationItem) return val }).map((item) => {
-                const trems = item.fields as TremsDTO
-                return ({
-                    id: trems.id,
-                    thumbnail: trems.thumbnail,
-                    required: trems.required,
-                    link: trems.link,
-                    isAgree: false,
-                    registrationItem: trems.registrationItem
-                })
-            }).sort(function (a, b) {
-                return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-            }))
-        })
-    }, []);
+        if (!checkList.length) {
+            contentfulClient.getEntries({
+                content_type: "termsAndConditions"
+            }).then((response) => {
+                setCheckList(response.items.filter((val) => { if ((val.fields as TremsDTO).registrationItem) return val }).map((item) => {
+                    const trems = item.fields as TremsDTO
+                    return ({
+                        id: trems.id,
+                        thumbnail: trems.thumbnail,
+                        required: trems.required,
+                        link: trems.link,
+                        isAgree: false,
+                        registrationItem: trems.registrationItem
+                    })
+                }).sort(function (a, b) {
+                    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+                }))
+            })
+        }
+    }, [checkList]);
 
     if (!checkList) {
         return <p>Loading...</p>

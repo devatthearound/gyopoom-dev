@@ -19,13 +19,10 @@ import { style1 } from "@utils/theme/button/style1";
 import HeaderNavigation from "./HeaderNavigation";
 import useModalStore from "@components/BasicConfirmModal/modal.store";
 import ErrorIcon from "@images/icons/blue_error.svg"
+import useRegisterStore from "@store/terms";
 
-type Props = {
-    item: any
-}
-
-const ProfileEntryForm: React.FC<Props> = ({ item }) => {
-    const { name, phoneNumber, profile, setProfile, checkList } = item;
+const ProfileEntryForm: React.FC = () => {
+    const { name, phoneNumber, profile, setProfile, checkList } = useRegisterStore();
     const { setUserValue } = useGetUser();
     const [previewImage, setPreviewImage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
@@ -43,7 +40,12 @@ const ProfileEntryForm: React.FC<Props> = ({ item }) => {
                     name: name.value,
                     phoneNumber: phoneNumber.value,
                     profileUrl: profileRes.data.imageUrl,
-                    agreements: checkList
+                    agreements: checkList.filter((val) => { if (val.isAgree) return val }).map((item) => {
+                        return {
+                            id: item.id,
+                            isAgreement: item.isAgree
+                        }
+                    })
                 });
 
                 if (isSuccess(apiRes)) {
@@ -83,7 +85,12 @@ const ProfileEntryForm: React.FC<Props> = ({ item }) => {
                 name: name.value,
                 phoneNumber: phoneNumber.value,
                 profileUrl: "https://ta-profile.s3.ap-northeast-2.amazonaws.com/basic_profile.png",
-                agreements: checkList
+                agreements: checkList.filter((val) => { if (val.isAgree) return val }).map((item) => {
+                    return {
+                        id: item.id,
+                        isAgreement: item.isAgree
+                    }
+                })
             });
 
             if (isSuccess(apiRes)) {
