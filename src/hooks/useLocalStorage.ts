@@ -39,7 +39,13 @@ const useLocalStorage = () => {
         // 만료기간이 남아있는 경우, value 값 리턴
         return value.value;
     }
-    return { setLocalStorage, getLocalStorage }
+
+
+    const rmLocalStorage = (key: string) => {
+        window.localStorage.removeItem(key);
+    }
+
+    return { setLocalStorage, getLocalStorage, rmLocalStorage }
 };
 
 export default useLocalStorage

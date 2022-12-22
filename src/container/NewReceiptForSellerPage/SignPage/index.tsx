@@ -55,7 +55,7 @@ const SignPage = () => {
         }
 
     }
-    const { getLocalStorage } = useLocalStorage();
+    const { getLocalStorage, rmLocalStorage } = useLocalStorage();
 
     const Popup = (
         <div>
@@ -102,6 +102,9 @@ const SignPage = () => {
                             goodsId: updateRes.data.goodsId
                         })
                         if (res.status == 201 || res.status == 200) {
+                            rmLocalStorage('goodsId');
+                            rmLocalStorage('buyerId');
+                            rmLocalStorage('receipt');
                             return navigate(`/my-chat/room/${res.data.roomId}`, {
                                 state: {
                                     text: JSON.stringify({

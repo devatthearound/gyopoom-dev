@@ -12,8 +12,9 @@ type TremsDTO = {
     id: string
     thumbnail: string
     required: boolean
-    link : string
+    link: string
     isAgree: boolean
+    registrationItem: boolean
 }
 
 const AuthPage = () => {
@@ -36,13 +37,13 @@ const AuthPage = () => {
 
     switch (currentIndex) {
         case 0:
-            return <TermsOfServiceEntryForm item={formData} />
+            return <SendAuthNumberForm item={formData} />
         case 1:
             return <AuthNumberVerifyForm item={formData} />
         case 2:
             return <NameEntryForm item={formData} />
         case 3:
-            return <SendAuthNumberForm item={formData} />
+            return <TermsOfServiceEntryForm item={formData} />
         case 4:
             return <ProfileEntryForm item={formData} />
         default:

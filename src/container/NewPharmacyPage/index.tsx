@@ -6,7 +6,7 @@ import InputElements from "@dto/input.elements";
 import InputWithLable from "@components/Input/InputWithLable";
 import { theme } from "@styles/theme";
 import { defaultBusniessNumber, defaultPharmacyAddress, defaultPharmacyName } from "@utils/create-pharmacy.input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BackIcon from "@images/icons/keyboard_arrow_left.svg"
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ import { isSuccess } from "@utils/options";
 import { style1 } from "@utils/theme/button/style1";
 import useModalStore from "@components/BasicConfirmModal/modal.store";
 import ErrorIcon from "@images/icons/blue_error.svg"
+import RegisterPharmacyRegister from "@components/BottomSheet/RegisterPharmacyRegister";
+import usePharmacyStore from "@store/pharmcay";
 
 const NewPharmacyPage = () => {
     const navigate = useNavigate();
@@ -25,40 +27,32 @@ const NewPharmacyPage = () => {
     const [pharmacyName, setPharmacyName] = useState<InputElements>(defaultPharmacyName)
     const [pharmacyAddress, setPharmacyAddress] = useState<InputElements>(defaultPharmacyAddress)
     const pharmacyMiddleware = new PharmacyMiddleware()
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const { storeBusnessNumber, storePharmacyName, storePharmacyAddress, setStoreBusnessNumber, setStorePharmacyName, setStorePharmacyAddress } = usePharmacyStore();
+
+    useEffect(()=>{
+        if(storeBusnessNumber){
+            setBusnessNumber({
+                ...busnessNumber,
+                invalid: !busnessNumber.regex.test(storeBusnessNumber.toString()),
+                value: storeBusnessNumber
+            })
+            setPharmacyName({
+                ...pharmacyName,
+                invalid: !pharmacyName.regex.test(storePharmacyName),
+                value: storePharmacyName
+            })
+            setPharmacyAddress({
+                ...pharmacyAddress,
+                invalid: !pharmacyAddress.regex.test(storePharmacyAddress),
+                value: storePharmacyAddress
+            })
+
+            setIsSubmit(!(busnessNumber.invalid == false && pharmacyName.invalid == false && pharmacyAddress.invalid == false))
+        }
+    },[])
 
     const handlerOnSubmit = async () => {
-        if (busnessNumber.invalid || busnessNumber.value.length <= 0)
-            return setIsConfirmModalOpen({
-                isOpen: true,
-                title: "사업자번호 10자는 필수 입력 항목입니다.",
-                icon: ErrorIcon,
-                confirmButton: {
-                    handleOnClick: () => setIsConfirmModalOpen({ ...isConfirmModalOpen, isOpen: false }),
-                    label: "확인",
-                    width: 10
-                }
-            })
-        if (pharmacyName.invalid || pharmacyName.value.length <= 0) return setIsConfirmModalOpen({
-            isOpen: true,
-            title: "약국명은 필수 입력 항목입니다.",
-            icon: ErrorIcon,
-            confirmButton: {
-                handleOnClick: () => setIsConfirmModalOpen({ ...isConfirmModalOpen, isOpen: false }),
-                label: "확인",
-                width: 10
-            }
-        })
-        if (pharmacyAddress.invalid || pharmacyAddress.value.length <= 0) return setIsConfirmModalOpen({
-            isOpen: true,
-            title: "주소는 필수 입력 항목입니다.",
-            icon: ErrorIcon,
-            confirmButton: {
-                handleOnClick: () => setIsConfirmModalOpen({ ...isConfirmModalOpen, isOpen: false }),
-                label: "확인",
-                width: 10
-            }
-        })
-
         setLoading(true)
         const res = await pharmacyMiddleware.createPharmacy({
             businessNumber: busnessNumber.value as number,
@@ -95,6 +89,10 @@ const NewPharmacyPage = () => {
             })
         }
 
+        setStoreBusnessNumber(null)
+        setStorePharmacyName("")
+        setStorePharmacyAddress("")
+
         setLoading(false)
     }
 
@@ -102,6 +100,15 @@ const NewPharmacyPage = () => {
         event: () => navigate(-1),
         iconType: BackIcon
     }]
+
+    const handleSubmitChilck = () => {
+        setStoreBusnessNumber(busnessNumber.value)
+        setStorePharmacyName(pharmacyName.value)
+        setStorePharmacyAddress(pharmacyAddress.value)
+        setIsOpen(true)
+    }
+
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <WithNoGuttersTopAndBottomLayout>
@@ -132,10 +139,14 @@ const NewPharmacyPage = () => {
                 <FillButton
                     id="navigate"
                     label="약국정보 등록하기"
-                    handleOnClick={handlerOnSubmit}
+                    handleOnClick={handleSubmitChilck}
                     disabled={!(busnessNumber.invalid == false && pharmacyName.invalid == false && pharmacyAddress.invalid == false)}
                     {...style1} />
             </BottomWrapper>
+            <RegisterPharmacyRegister 
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onClickHandle={handlerOnSubmit} />
         </WithNoGuttersTopAndBottomLayout>
     )
 }

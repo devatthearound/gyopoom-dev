@@ -6,6 +6,8 @@ type TermsAndConditionsEntity = {
     content: string
     createAt: string
     updateAt: string
+    required: boolean
+    link: string
 }
 
 export default TermsAndConditionsEntity

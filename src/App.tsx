@@ -23,10 +23,6 @@ import ChatRoomPage from '@container/ChatRoomPage';
 import DetailsImagesPage from '@container/DetailsImagesPage';
 
 import TermsConditionsPage from '@container/DetailsTermsConditionsPage';
-import UserTermsPage from '@container/DetailsTermsConditionsPage/term002';
-import ServiceTermsPage from '@container/DetailsTermsConditionsPage/term001';
-import MarketingTermsPage from '@container/DetailsTermsConditionsPage/term003';
-
 import DeleteAccountPage from '@container/DeleteAccountPage';
 import EnrollPharmacyPage from '@container/EnrollPharmacyPage';
 import NewPharmacyPage from '@container/NewPharmacyPage';
@@ -51,6 +47,7 @@ import axios from 'axios';
 import Terms001Page from '@container/DetailsTermsConditionsPage/term001';
 import Terms002Page from '@container/DetailsTermsConditionsPage/term002';
 import Terms003Page from '@container/DetailsTermsConditionsPage/term003';
+import Terms006Page from '@container/DetailsTermsConditionsPage/term006';
 
 const App = () => {
   const location = useLocation();
@@ -105,6 +102,7 @@ const App = () => {
           <Route path="/terms-of-term001" element={<Terms001Page />} />
           <Route path="/terms-of-term002" element={<Terms002Page />} />
           <Route path="/terms-of-term003" element={<Terms003Page />} />
+          <Route path="/terms-of-term006" element={<Terms006Page />} />
 
           <Route path="/change-account" element={<ChangeAccountPage />} />
           <Route path="/:id" element={<DetailsGoodsPage />} />

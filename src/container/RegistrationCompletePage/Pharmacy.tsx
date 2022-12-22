@@ -100,7 +100,6 @@ const PharmacyRegistrationComplete = () => {
                             handleOnClick={() => navigate("/new-goods", { replace: true })}
                             {...style1} />
                 }
-
                 <FillButton
                     id="navigate-home"
                     label="홈으로"

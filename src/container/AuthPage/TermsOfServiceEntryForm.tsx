@@ -27,6 +27,7 @@ type TremsDTO = {
     required: boolean
     link: string
     isAgree: boolean
+    registrationItem: boolean
 }
 
 const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
@@ -40,16 +41,17 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
         contentfulClient.getEntries({
             content_type: "termsAndConditions"
         }).then((response) => {
-            setCheckList(response.items.map((item) => {
+            setCheckList(response.items.filter((val) => { if ((val.fields as TremsDTO).registrationItem) return val }).map((item) => {
                 const trems = item.fields as TremsDTO
                 return ({
                     id: trems.id,
                     thumbnail: trems.thumbnail,
                     required: trems.required,
                     link: trems.link,
-                    isAgree: false
+                    isAgree: false,
+                    registrationItem: trems.registrationItem
                 })
-            }).sort(function(a, b) { 
+            }).sort(function (a, b) {
                 return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
             }))
         })
