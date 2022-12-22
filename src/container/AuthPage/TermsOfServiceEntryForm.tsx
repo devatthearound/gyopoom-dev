@@ -5,14 +5,14 @@ import WithGuttersLeftAndRightLayoutForNotScroll from "@components/Layout/WithGu
 import Typography from "@components/Typograpy";
 import { theme } from "@styles/theme";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import contentfulClient from "@service/contentfulClient";
 import CheckBoxButton from "@components/CheckBoxButton";
-import BasicRadioButton from "@components/RadioButton/basic";
-import InputElements from "@dto/input.elements";
 import useStep from "@container/AuthPage/step.store";
 import { style1 } from "@utils/theme/button/style1";
 import HeaderNavigation from "./HeaderNavigation";
+import RadioH50BButton from "@components/RadioButton/H50B";
+import { Link } from "react-router-dom";
 
 type Props = {
     item: {
@@ -24,6 +24,8 @@ type Props = {
 type TremsDTO = {
     id: string
     thumbnail: string
+    required: boolean
+    link: string
     isAgree: boolean
 }
 
@@ -38,20 +40,25 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
         contentfulClient.getEntries({
             content_type: "termsAndConditions"
         }).then((response) => {
-            response.items.map((item) => {
+            setCheckList(response.items.map((item) => {
                 const trems = item.fields as TremsDTO
-                setCheckList(oldArray => [...oldArray, {
+                return ({
                     id: trems.id,
                     thumbnail: trems.thumbnail,
+                    required: trems.required,
+                    link: trems.link,
                     isAgree: false
-                }])
-            })
+                })
+            }).sort(function(a, b) { 
+                return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+            }))
         })
     }, []);
 
     if (!checkList) {
         return <p>Loading...</p>
     }
+
 
     const handleAllChangeToCheck = (id: string) => {
         setCheckAllButtonClickState(!checkAllButtonClickState)
@@ -79,16 +86,23 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
     }
 
     useEffect(() => {
-        let state = true;
+        let submitState = true;
+        let allButtonState = true;
 
         checkList.map((item) => {
-            if (!item.isAgree) {
-                state = false;
+            if (item.required && !item.isAgree) {
+                submitState = false;
             }
         })
 
-        setRequiredAgreementClickStatus(state)
-        setCheckAllButtonClickState(state)
+        checkList.map((item) => {
+            if (!item.isAgree) {
+                allButtonState = false;
+            }
+        })
+
+        setRequiredAgreementClickStatus(submitState)
+        setCheckAllButtonClickState(allButtonState)
 
     }, [checkList, checkAllButtonClickState])
 
@@ -122,8 +136,8 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
                 </DownToUpPageTransition>
                 <BottomWrapper>
                     <DelayShowElement>
-                        <CheckBoxFormHeader>
-                            <BasicRadioButton
+                        <CheckBoxFormHeader isActive={checkAllButtonClickState}>
+                            <RadioH50BButton
                                 elements={{
                                     name: "all",
                                     type: "checkbox",
@@ -131,8 +145,10 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
                                     checked: checkAllButtonClickState,
                                     value: "all"
                                 }}
-                                checkColor={theme.color.N900A}
-                                unCheckColor={theme.color.N900A}
+                                defaultBgColor={theme.svgColor.N50}
+                                activedBgColor={theme.svgColor.B300}
+                                defaultTtColor={theme.color.N900A}
+                                activedTtColor={theme.color.N900A}
                                 onChange={handleAllChangeToCheck} />
                         </CheckBoxFormHeader>
                         <CheckBoxFormBody>
@@ -143,11 +159,21 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
                                             elements={{
                                                 name: item.id,
                                                 type: "checkbox",
-                                                label: item.thumbnail,
+                                                label: item.required ? "(필수) " + item.thumbnail : "(선택) " + item.thumbnail,
                                                 checked: item.isAgree,
                                                 value: item.id
                                             }}
+                                            defaultBgColor={theme.svgColor.N80}
+                                            activedBgColor={theme.svgColor.B300}
+                                            defaultTtColor={theme.color.N80}
+                                            activedTtColor={theme.color.N900}
                                             onChange={handleChangeToCheck} />
+                                        {item.link &&
+                                            <Link to={`${item.link}`}>
+                                                <Typography.P200 color={theme.color.N80}>
+                                                    보기
+                                                </Typography.P200>
+                                            </Link>}
                                     </CheckBoxWrapper>
                                 ))
                             }
@@ -168,11 +194,10 @@ const TermsOfServiceEntryForm: React.FC<Props> = ({ item }) => {
     )
 }
 
-const CheckBoxFormHeader = styled.div`
-    background-color: ${theme.color.N30};
+const CheckBoxFormHeader = styled.div<{ isActive: boolean }>`
+    border: ${({ isActive }) => isActive ? `1px solid ${theme.color.B200}` : `1px solid ${theme.color.N30}`};
     border-radius: 0.8rem;
     padding: 1rem;
-
 `
 
 const CheckBoxFormBody = styled.div`
@@ -180,7 +205,9 @@ const CheckBoxFormBody = styled.div`
 `
 
 const CheckBoxWrapper = styled.div`
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `
 
 const BottomWrapper = styled.div`

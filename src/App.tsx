@@ -23,9 +23,9 @@ import ChatRoomPage from '@container/ChatRoomPage';
 import DetailsImagesPage from '@container/DetailsImagesPage';
 
 import TermsConditionsPage from '@container/DetailsTermsConditionsPage';
-import UserTermsPage from '@container/DetailsTermsConditionsPage/User';
-import ServiceTermsPage from '@container/DetailsTermsConditionsPage/Service';
-import MarketingTermsPage from '@container/DetailsTermsConditionsPage/Marketing';
+import UserTermsPage from '@container/DetailsTermsConditionsPage/term002';
+import ServiceTermsPage from '@container/DetailsTermsConditionsPage/term001';
+import MarketingTermsPage from '@container/DetailsTermsConditionsPage/term003';
 
 import DeleteAccountPage from '@container/DeleteAccountPage';
 import EnrollPharmacyPage from '@container/EnrollPharmacyPage';
@@ -48,6 +48,9 @@ import SignPage from '@container/NewReceiptForSellerPage/SignPage';
 import MedicinePage from '@container/NewReceiptForSellerPage/MedicinePage';
 import { getCookie } from '@hooks/useCookie';
 import axios from 'axios';
+import Terms001Page from '@container/DetailsTermsConditionsPage/term001';
+import Terms002Page from '@container/DetailsTermsConditionsPage/term002';
+import Terms003Page from '@container/DetailsTermsConditionsPage/term003';
 
 const App = () => {
   const location = useLocation();
@@ -98,9 +101,11 @@ const App = () => {
           <Route path="/account/pharmacist/enroll" element={<EnrollPharmacistPage />} />
           <Route path="/account/pharmacist/enroll/end" element={<PharmacistRegistrationComplete />} />
           <Route path="/account/terms-conditions" element={<TermsConditionsPage />} />
-          <Route path="/account/terms-conditions/service" element={<ServiceTermsPage />} />
-          <Route path="/account/terms-conditions/users" element={<UserTermsPage />} />
-          <Route path="/account/terms-conditions/marketing" element={<MarketingTermsPage />} />
+
+          <Route path="/terms-of-term001" element={<Terms001Page />} />
+          <Route path="/terms-of-term002" element={<Terms002Page />} />
+          <Route path="/terms-of-term003" element={<Terms003Page />} />
+
           <Route path="/change-account" element={<ChangeAccountPage />} />
           <Route path="/:id" element={<DetailsGoodsPage />} />
           <Route path="/new-goods" element={<NewGoodsPage />} />

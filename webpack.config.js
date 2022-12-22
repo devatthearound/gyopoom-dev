@@ -9,12 +9,12 @@ module.exports = {
     filename: "my-first-webpack.bundle.js",
     publicPath: "/",
   },
-  mode: "none",
-  // performance: {
-  //   hints: false,
-  //   maxEntrypointSize: 512000,
-  //   maxAssetSize: 512000,
-  // },
+  mode: "development",
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
   resolve: {
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
@@ -32,16 +32,16 @@ module.exports = {
     extensions: [".tsx", ".ts", "...", ".js"],
     preferRelative: true,
   },
-  // devServer: {
-  //   allowedHosts: "all",
-  //   static: {
-  //     directory: path.join(__dirname, "build"),
-  //   },
-  //   historyApiFallback: true,
-  //   compress: true,
-  //   // port: 80,
-  //   // host: "localhost",
-  // },
+  devServer: {
+    allowedHosts: "all",
+    static: {
+      directory: path.join(__dirname, "build"),
+    },
+    historyApiFallback: true,
+    compress: true,
+    port: 80,
+    host: "0.0.0.0",
+  },
   module: {
     rules: [
       {

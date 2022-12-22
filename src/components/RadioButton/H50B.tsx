@@ -2,11 +2,12 @@ import Typography from "@components/Typograpy";
 import InputRadioElements from "@dto/input.radio.elements";
 import { theme } from "@styles/theme";
 import styled from "styled-components";
-import checkIcon from "@images/icons/check.svg"
+import radioButtonUncheckedIcon from "@images/icons/radio_button_unchecked.svg"
+import radioButtonCheckedIcon from "@images/icons/radio_button_checked.svg"
 
 interface Props extends ColorStyleProps {
     elements: InputRadioElements
-    onChange: (id: string) => void
+    onChange: (id: string) => void,
 }
 
 type ColorStyleProps = {
@@ -15,12 +16,13 @@ type ColorStyleProps = {
     activedBgColor: string,
     activedTtColor: string,
 }
+const RadioH50BButton: React.FC<Props> = ({ elements, defaultBgColor, defaultTtColor, activedBgColor, activedTtColor, onChange }) => {
 
-const CheckBoxButton = ({ elements, onChange, defaultBgColor, defaultTtColor, activedBgColor, activedTtColor }: Props) => {
     const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target as HTMLInputElement
         onChange(value)
     }
+
     return (
         <Container>
             <RadioButton
@@ -35,59 +37,59 @@ const CheckBoxButton = ({ elements, onChange, defaultBgColor, defaultTtColor, ac
                 activedTtColor={activedTtColor}
                 onChange={handlerOnChange} />
             <Label htmlFor={elements.value}>
-                <Typography.P200
-                    color={theme.color.N50}>
+                <Typography.H50B>
                     {elements.label}
-                </Typography.P200>
+                </Typography.H50B>
             </Label>
         </Container>
-    ) 
+    )
 }
+
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1;
+`;
 
 const RadioButton = styled.input<ColorStyleProps>`
     display: none;
 
     ~ label::before{
         content: "";
-        background: url(${checkIcon}) no-repeat;
+        background: url(${radioButtonUncheckedIcon}) no-repeat left center;
         position: absolute;
         left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        filter:${(props => props.defaultBgColor)};
+        filter:${(props => props.defaultBgColor)} !important;
     }
  
     :checked ~ label::before{
         content: "";
-        background: url(${checkIcon}) no-repeat;
+        background: url(${radioButtonCheckedIcon}) no-repeat left center;
         position: absolute;
         left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        filter:${(props => props.activedBgColor)};
+        filter:${(props => props.activedBgColor)} !important;
     }
 
     :checked ~ label h1{
         color: ${(props => props.activedTtColor)} !important;
     }
     label h1{
-        color: ${(props => props.defaultTtColor)};
+        color: ${(props => props.defaultTtColor)} !important;
     }
 `;
 
 const Label = styled.label`
     position: relative;
     width: 100%;
-    padding: 0.6rem 0 0.6rem 2.6rem;
-    color: ${theme.color.N50};
+    padding: 0.6rem 0 0.6rem 3rem;
     transition: 0.1s;
     cursor: pointer;
 `
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    flex: 1;
-    padding: 0.2rem;
-`;
 
-export default CheckBoxButton;
+export default RadioH50BButton

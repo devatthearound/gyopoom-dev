@@ -11,6 +11,8 @@ import useStep from "./step.store";
 type TremsDTO = {
     id: string
     thumbnail: string
+    required: boolean
+    link : string
     isAgree: boolean
 }
 
@@ -34,13 +36,13 @@ const AuthPage = () => {
 
     switch (currentIndex) {
         case 0:
-            return <SendAuthNumberForm item={formData} />
+            return <TermsOfServiceEntryForm item={formData} />
         case 1:
             return <AuthNumberVerifyForm item={formData} />
         case 2:
             return <NameEntryForm item={formData} />
         case 3:
-            return <TermsOfServiceEntryForm item={formData} />
+            return <SendAuthNumberForm item={formData} />
         case 4:
             return <ProfileEntryForm item={formData} />
         default:
